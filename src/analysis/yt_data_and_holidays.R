@@ -1,18 +1,20 @@
 library(pacman)
-p_load("dplyr", "ggplot2")
+p_load("dplyr", "ggplot2", "this.path")
 
+setwd(file.path(file.path(dirname(this.path()), ".."), ".."))
 getwd()
-dir()
 
-yt_data <- read.csv("CalliopeMori.csv")
-JP_holidays <- read.csv("JP_holidays.csv")
-USA_holidays <- read.csv("USA_holidays.csv")
+
+# yt_data <- read.csv("./data/YouTube/CalliopeMori.csv")
+yt_data <- read.csv("./data/YouTube/Hololive.csv")
+JP_holidays <- read.csv("./data/Google Calendar/JP_holidays.csv")
+USA_holidays <- read.csv("./data/Google Calendar/USA_holidays.csv")
+ID_holidays <- read.csv("./data/Google Calendar/ID_holidays.csv")
 View(yt_data)
 
-# add a new column "holiday contry"?
-
 # rbind holidays from different contries
-holidays <- rbind(JP_holidays, USA_holidays)
+# holidays <- rbind(JP_holidays, USA_holidays)
+holidays <- rbind(JP_holidays, USA_holidays, ID_holidays)
 View(holidays)
 
 # sort by date
