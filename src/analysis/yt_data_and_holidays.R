@@ -22,6 +22,8 @@ holidays$date <- as.Date(holidays$date)
 sorted_idx <- order(holidays$date)
 holidays <- holidays[sorted_idx, ]
 
+# unique yt_data
+yt_data <- unique(yt_data)
 # unique holidays
 holidays <- unique(holidays)
 
@@ -76,9 +78,10 @@ boxplot(non_holiday_yt_data$views, main = "non holiday")
 boxplot(holiday_yt_data$views, main = "holiday")
 par(mfrow = c(1, 1))
 
-# summary views, like and comments of two data
+# summary views, likes and comments of two data
 summary(non_holiday_yt_data %>% select(views:comments))
 summary(holiday_yt_data %>% select(views:comments))
+
 
 
 dev.off()
