@@ -18,7 +18,11 @@ adjust_tags <- function(tags_str) {
   tags_str <- gsub(",\\s*", ",", tags_str)
   adjusted_tags <- str_extract_all(tags_str, "[^,]+")
   adjusted_tags <- sapply(adjusted_tags, paste, collapse = " #")
-  adjusted_tags <- sapply(adjusted_tags, function(tag) ifelse(startsWith(tag, "#"), tag, paste("#", tag, sep = "")), USE.NAMES = FALSE)
+  adjusted_tags <- sapply(adjusted_tags,
+                          function(tag) ifelse(startsWith(tag, "#"),
+                                               tag,
+                                               paste("#", tag, sep = "")),
+                          USE.NAMES = FALSE)
   
   return(adjusted_tags)
 }
@@ -66,16 +70,19 @@ View(x_data)
 pattern <- "#[^#]+"
 yt_tags <- unlist(str_extract_all(yt_data$tags, pattern))
 x_tags <- unlist(str_extract_all(x_data$tags, pattern))
+
 all_tags <- c(yt_tags, x_tags)
 tag_frequency <- table(all_tags)
 
-View(tag_freq)
+View(tag_frequency)
 
+# change table to data frame
 tag_freq <- as.data.frame(tag_frequency)
 tag_freq <- tag_freq[order(-tag_freq$Freq), ]
 
 View(tag_freq)
 
+# find top 5 freq tags
 tag_freq$all_tags <- as.character(tag_freq$all_tags)
 top_tags <- tag_freq$all_tags[1:5]
 
@@ -84,6 +91,8 @@ View(top_tags)
 
 
 # --- count matched num with tags (3 common tags) ---
+
+# add new column "matched_x_nums" in yt_data
 yt_data$matched_x_nums <- 0
 
 pattern <- "#[^#]+"
@@ -108,7 +117,8 @@ for (yt_index in seq_len(nrow(yt_data))) {
     
     base_count_of_common_tags <- floor((length(x_tags)+1)/2)
     
-    if (length(common_tags) >= base_count_of_common_tags && all(!common_tags %in% top_tags)) {
+    if (length(common_tags) >= base_count_of_common_tags &&
+        all(!common_tags %in% top_tags)) {
       yt_data$matched_x_nums[yt_index] <- yt_data$matched_x_nums[yt_index] + 1
     }
   }
