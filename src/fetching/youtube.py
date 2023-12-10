@@ -13,7 +13,8 @@ api_service_name = "youtube"
 api_version = "v3"
 api_key_file = "./secrets/youtube.json"
 
-save_csv_path = "./data/YouTube/video_details.csv"
+# save_csv_path = "./data/YouTube/video_details.csv"
+save_csv_path = "./data/YouTube/test.csv"
 
 cur_channel_id = HOLOLIVE_ID
 
@@ -42,10 +43,6 @@ def main():
     print(f"got {len(video_details)} video_details!\n")
     
     data = pd.DataFrame(video_details)
-    data["publishedDate"] = pd.to_datetime(data["publishedDate"]).dt.date
-    data["views"] = pd.to_numeric(data["views"])
-    data["likes"] = pd.to_numeric(data["likes"])
-    data["comments"] = pd.to_numeric(data["comments"])
     print("show top 5 data:")
     print(data.head())
     print()
@@ -113,7 +110,7 @@ def get_video_details(youtube, video_ids):
 
     for i in range(0, len(video_ids), 50):
         request = youtube.videos().list(
-            part= "snippet, statistics",
+            part= "id, snippet, statistics, status, contentDetails, liveStreamingDetails, topicDetails, localizations",
             id= ",".join(video_ids[i:i+50])
         )
 
@@ -121,27 +118,24 @@ def get_video_details(youtube, video_ids):
 
         for video in response["items"]:
             try:
-                video_stats = dict(title = video["snippet"]["title"],
-                                    publishedDate = video["snippet"]["publishedAt"],
-                                    tags = video['snippet']['tags'],
-                                    views = video["statistics"]["viewCount"],
-                                    likes = video["statistics"]["likeCount"],
-                                    comments = video["statistics"]["commentCount"])
+                video_stats = dict(
+                            id = video.get("id"),
+                            privacyStatus = video.get("status", {}).get("privacyStatus"),
+                            title = video.get("snippet", {}).get("title"),
+                            publishedDate = video.get("snippet", {}).get("publishedAt"),
+                            duration = video.get("contentDetails", {}).get("duration"),
+                            tags = video.get("snippet", {}).get("tags", []),
+                            views = video.get("statistics", {}).get("viewCount"),
+                            likes = video.get("statistics", {}).get("likeCount"),
+                            comments = video.get("statistics", {}).get("commentCount"),
+                            topicCategories = video.get("topicDetails", {}).get("topicCategories", []),
+                            liveStreamActualStartTime = video.get("liveStreamingDetails", {}).get("actualStartTime"),
+                            liveStreamActualEndTime = video.get("liveStreamingDetails", {}).get("actualEndTime"),
+                            liveStreamScheduledStartTime = video.get("liveStreamingDetails", {}).get("scheduledStartTime"),
+                            localizations = list(video.get("localizations", {}).keys())
+                        )
             except KeyError as e:
-                if str(e) == 'comments':
-                    video_stats = dict(title = video["snippet"]["title"],
-                                    publishedDate = video["snippet"]["publishedAt"],
-                                    tags = video['snippet']['tags'],
-                                    views = video["statistics"]["viewCount"],
-                                    likes = video["statistics"]["likeCount"],
-                                    comments = 0)
-                if str(e) == 'viewCount':
-                    video_stats = dict(title = video["snippet"]["title"],
-                                    publishedDate = video["snippet"]["publishedAt"],
-                                    tags = video['snippet']['tags'],
-                                    views = -1,
-                                    likes = video["statistics"]["likeCount"],
-                                    comments = video["statistics"]["commentCount"])
+                print(e)
 
             all_video_stats.append(video_stats)
 
