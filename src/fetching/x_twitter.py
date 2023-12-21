@@ -20,7 +20,19 @@ HOLOLIVE_USERNAME = "hololivetv"
 cur_username = HOLOLIVE_USERNAME
 
 secret_file = "./secrets/x_login_info.json"
-save_csv_path = "./data/X_Twitter/test.csv"
+
+# 01-01~01-01
+# 2022-2023 -> 1~4
+# 2021-2022 -> 5~7
+# 2020-2021 -> 8~11
+# 2019-2020 ->
+# 2018-2019 ->
+# 2017-2018 ->
+
+save_csv_path = "./data/X_Twitter/tweets_data_14.csv"
+
+start_date = "2019-01-01"
+end_date = "2019-08-14"
 
 chrome_options = Options()
 chrome_options.add_argument('--incognito') 
@@ -42,7 +54,7 @@ def main():
     login_to_twitter(LOGIN_USER, LOGIN_PSW)
     time.sleep(3)
     
-    tweets_data = get_tweets(cur_username, max_results=-1, start_date="2022-01-01", end_date="2023-01-01")
+    tweets_data = get_tweets(cur_username, max_results=-1, start_date=start_date, end_date=end_date)
     # tweets_data = get_tweets(cur_username, max_results=-1, start_date="2022-01-01", end_date="2023-01-01", content_filter="\u2605\u2605\u2605 \u8a3a\u65ad\u5b8c\u4e86 \u2605\u2605\u2605")
     # tweets_data = get_tweets(cur_username, max_results=2500)
     
@@ -91,23 +103,26 @@ def get_tweets(username, max_results=5, start_date=None, end_date=None, content_
     tweets_data = []
     
     if start_date is None or end_date is None:
-        driver.get(f'https://twitter.com/{username}/media')
+        # https://twitter.com/search?q=from%3Ahololivetv%20since%3A2018-01-01%20until%3A2019-01-01&src=typed_query&f=live
+        # driver.get(f'https://twitter.com/{username}/media')
+        print("start date and end date are needed.")
+        return
+    if content_filter != None:
+        search_query = f"from:{username} since:{start_date} until:{end_date} -\"{content_filter}\""
     else:
-        if content_filter != None:
-            search_query = f"from:{username} since:{start_date} until:{end_date} filter:media -\"{content_filter}\""
-        else:
-            search_query = f"from:{username} since:{start_date} until:{end_date} filter:media"
+        search_query = f"from:{username} since:{start_date} until:{end_date}"
+
+    search_input = WebDriverWait(driver, 5).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="SearchBox_Search_Input"]'))
+    )
+    search_input.send_keys(search_query)
+    search_input.send_keys(Keys.RETURN)
     
-        search_input = WebDriverWait(driver, 5).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="SearchBox_Search_Input"]'))
-        )
-        search_input.send_keys(search_query)
-        search_input.send_keys(Keys.RETURN)
-        
-        lastest_btn = WebDriverWait(driver, 5).until(
-            EC.presence_of_element_located((By.XPATH, '//a[contains(@href, "f=live")]'))
-        )
-        lastest_btn.click()
+    # click the "Latest button"
+    lastest_btn = WebDriverWait(driver, 5).until(
+        EC.presence_of_element_located((By.XPATH, '//a[contains(@href, "f=live")]'))
+    )
+    lastest_btn.click()
     
     # tweets = driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweet"]')
     tweets = WebDriverWait(driver, 10).until(
@@ -142,20 +157,32 @@ def get_tweets(username, max_results=5, start_date=None, end_date=None, content_
             posted_time = parse(timestamp).isoformat()
             # print(posted_time)
             
-            replies_element = tweet.find_element(By.CSS_SELECTOR, '[data-testid="reply"]')
-            replies = replies_element.get_attribute("aria-label")
+            try:
+                replies_element = tweet.find_element(By.CSS_SELECTOR, '[data-testid="reply"]')
+                replies = replies_element.get_attribute("aria-label")
+            except:
+                replies = None
             # print(f"replies: {extract_digits(replies)}", end=" ")
             
-            retweet_element = tweet.find_element(By.CSS_SELECTOR, '[data-testid="retweet"]')
-            retweets = retweet_element.get_attribute("aria-label")
+            try:
+                retweet_element = tweet.find_element(By.CSS_SELECTOR, '[data-testid="retweet"]')
+                retweets = retweet_element.get_attribute("aria-label")
+            except:
+                retweets = None
             # print(f"retweets: {extract_digits(retweets)}", end=" ")
             
-            like_element = tweet.find_element(By.CSS_SELECTOR, '[data-testid="like"]')
-            likes = like_element.get_attribute("aria-label")
+            try:
+                like_element = tweet.find_element(By.CSS_SELECTOR, '[data-testid="like"]')
+                likes = like_element.get_attribute("aria-label")
+            except:
+                likes = None
             # print(f"likes: {extract_digits(likes)}", end=" ")
             
-            view_element = tweet.find_element(By.XPATH, './/*[contains(@aria-label, "View post analytics")]')
-            views = view_element.get_attribute("aria-label")
+            try:
+                view_element = tweet.find_element(By.XPATH, './/*[contains(@aria-label, "View post analytics")]')
+                views = view_element.get_attribute("aria-label")
+            except:
+                views = None
             # print(f"views: {extract_digits(views)}")
             
             # print()
