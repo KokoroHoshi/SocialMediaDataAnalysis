@@ -1,0 +1,342 @@
+date,holiday_name,type
+2018-01-01,Republic Day/New Year's Day,National holiday
+2018-02-04,Farmer's Day,Observance
+2018-02-15,Lunar New Year's Eve,National holiday
+2018-02-16,Lunar New Year's Day,National holiday
+2018-02-17,Lunar New Year Holiday,National holiday
+2018-02-18,Lunar New Year Holiday,National holiday
+2018-02-19,Lunar New Year Holiday,National holiday
+2018-02-20,Lunar New Year Holiday,National holiday
+2018-02-28,Peace Memorial Day,National holiday
+2018-03-02,Lantern Festival,Observance
+2018-03-02,Tourism Day,Observance
+2018-03-08,International Women's Day,Observance
+2018-03-12,Arbor Day,Observance
+2018-03-18,Earth God's Birthday,Observance
+2018-03-21,March Equinox,Season
+2018-03-29,Youth Day,Observance
+2018-04-01,Easter Sunday,Observance
+2018-04-04,Children's Day,National holiday
+2018-04-04,Kuan Yin's Birthday,Observance
+2018-04-05,Tomb Sweeping Day,National holiday
+2018-04-30,God of Medicine's Birthday,Observance
+2018-05-01,Labor Day,Private Sector
+2018-05-04,Literary Day,Observance
+2018-05-08,Matsu's Birthday,Observance
+2018-05-13,Mother's Day,Observance
+2018-05-22,Buddha's Birthday,Observance
+2018-06-03,Opium Suppression Movement Day,Observance
+2018-06-18,Dragon Boat Festival,National holiday
+2018-06-21,June Solstice,Season
+2018-06-26,Kuan Kung's Birthday,Observance
+2018-06-26,Chen Huang's Birthday,Observance
+2018-08-08,Father's Day,Observance
+2018-08-17,Chinese Valentine's Day,Observance
+2018-08-25,Hungry Ghost Festival,Observance
+2018-09-03,Armed Forces Day,Observance
+2018-09-23,September Equinox,Season
+2018-09-24,Mid-Autumn Festival,National holiday
+2018-09-28,Teachers' Day,Observance
+2018-10-10,National Day,National holiday
+2018-10-17,Double Ninth Day,Observance
+2018-10-21,Overseas Chinese Day,Observance
+2018-10-25,Taiwan's Retrocession Day,Observance
+2018-10-31,Halloween,Observance
+2018-11-12,Sun Yat-sen's Birthday,Observance
+2018-11-22,Saisiat Festival,Observance
+2018-12-22,December Solstice,Season
+2018-12-22,Dōngzhì Festival,Observance
+2018-12-25,Constitution Day,Observance
+2018-12-25,Christmas Day,Observance
+2019-01-01,Republic Day/New Year's Day,National holiday
+2019-02-02,Lunar New Year Holiday,National holiday
+2019-02-03,Lunar New Year Holiday,National holiday
+2019-02-04,Lunar New Year's Eve,National holiday
+2019-02-04,Farmer's Day,Observance
+2019-02-05,Lunar New Year's Day,National holiday
+2019-02-06,Lunar New Year Holiday,National holiday
+2019-02-07,Lunar New Year Holiday,National holiday
+2019-02-08,Lunar New Year Holiday,National holiday
+2019-02-09,Lunar New Year Holiday,National holiday
+2019-02-10,Lunar New Year Holiday,National holiday
+2019-02-19,Lantern Festival,Observance
+2019-02-19,Tourism Day,Observance
+2019-02-28,Peace Memorial Day,National holiday
+2019-03-08,International Women's Day,Observance
+2019-03-08,Earth God's Birthday,Observance
+2019-03-12,Arbor Day,Observance
+2019-03-21,March Equinox,Season
+2019-03-25,Kuan Yin's Birthday,Observance
+2019-03-29,Youth Day,Observance
+2019-04-04,Children's Day,National holiday
+2019-04-05,Tomb Sweeping Day,National holiday
+2019-04-19,God of Medicine's Birthday,Observance
+2019-04-21,Easter Sunday,Observance
+2019-04-27,Matsu's Birthday,Observance
+2019-05-01,Labor Day,Private Sector
+2019-05-04,Literary Day,Observance
+2019-05-12,Mother's Day,Observance
+2019-05-12,Buddha's Birthday,Observance
+2019-06-03,Opium Suppression Movement Day,Observance
+2019-06-07,Dragon Boat Festival,National holiday
+2019-06-15,Kuan Kung's Birthday,Observance
+2019-06-15,Chen Huang's Birthday,Observance
+2019-06-21,June Solstice,Season
+2019-08-07,Chinese Valentine's Day,Observance
+2019-08-08,Father's Day,Observance
+2019-08-15,Hungry Ghost Festival,Observance
+2019-09-03,Armed Forces Day,Observance
+2019-09-13,Mid-Autumn Festival,National holiday
+2019-09-23,September Equinox,Season
+2019-09-28,Teachers' Day,Observance
+2019-10-07,Double Ninth Day,Observance
+2019-10-10,National Day,National holiday
+2019-10-21,Overseas Chinese Day,Observance
+2019-10-25,Taiwan's Retrocession Day,Observance
+2019-10-31,Halloween,Observance
+2019-11-12,Sun Yat-sen's Birthday,Observance
+2019-12-22,December Solstice,Season
+2019-12-22,Dōngzhì Festival,Observance
+2019-12-25,Constitution Day,Observance
+2019-12-25,Christmas Day,Observance
+2020-01-01,Republic Day/New Year's Day,National holiday
+2020-01-23,Lunar New Year Holiday,National holiday
+2020-01-24,Lunar New Year's Eve,National holiday
+2020-01-25,Lunar New Year's Day,National holiday
+2020-01-26,Lunar New Year Holiday,National holiday
+2020-01-27,Lunar New Year Holiday,National holiday
+2020-01-28,Lunar New Year Holiday,National holiday
+2020-01-29,Lunar New Year Holiday,National holiday
+2020-02-04,Farmer's Day,Observance
+2020-02-08,Lantern Festival,Observance
+2020-02-08,Tourism Day,Observance
+2020-02-15,Special Working Day,Working day on weekend
+2020-02-24,Earth God's Birthday,Observance
+2020-02-28,Peace Memorial Day,National holiday
+2020-03-08,International Women's Day,Observance
+2020-03-12,Arbor Day,Observance
+2020-03-12,Kuan Yin's Birthday,Observance
+2020-03-20,March Equinox,Season
+2020-03-29,Youth Day,Observance
+2020-04-02,Children's Day Holiday,National holiday
+2020-04-03,Tomb Sweeping Day Holiday,National holiday
+2020-04-04,Tomb Sweeping Day,National holiday
+2020-04-04,Children's Day,National holiday
+2020-04-07,God of Medicine's Birthday,Observance
+2020-04-12,Easter Sunday,Observance
+2020-04-15,Matsu's Birthday,Observance
+2020-04-30,Buddha's Birthday,Observance
+2020-05-01,Labor Day,Private Sector
+2020-05-04,Literary Day,Observance
+2020-05-10,Mother's Day,Observance
+2020-06-03,Opium Suppression Movement Day,Observance
+2020-06-20,Special Working Day,Working day on weekend
+2020-06-21,June Solstice,Season
+2020-06-25,Dragon Boat Festival,National holiday
+2020-06-26,Dragon Boat Festival Holiday,National holiday
+2020-07-03,Kuan Kung's Birthday,Observance
+2020-07-03,Chen Huang's Birthday,Observance
+2020-08-08,Father's Day,Observance
+2020-08-25,Chinese Valentine's Day,Observance
+2020-09-02,Hungry Ghost Festival,Observance
+2020-09-03,Armed Forces Day,Observance
+2020-09-22,September Equinox,Season
+2020-09-26,Special Working Day,Working day on weekend
+2020-09-28,Teachers' Day,Observance
+2020-10-01,Mid-Autumn Festival,National holiday
+2020-10-02,Mid-Autumn Festival Holiday,National holiday
+2020-10-09,National Day observed,National holiday
+2020-10-10,National Day,National holiday
+2020-10-21,Overseas Chinese Day,Observance
+2020-10-25,Taiwan's Retrocession Day,Observance
+2020-10-25,Double Ninth Day,Observance
+2020-10-31,Halloween,Observance
+2020-11-12,Sun Yat-sen's Birthday,Observance
+2020-11-29,Saisiat Festival,Observance
+2020-12-21,December Solstice,Season
+2020-12-21,Dōngzhì Festival,Observance
+2020-12-25,Constitution Day,Observance
+2020-12-25,Christmas Day,Observance
+2021-01-01,Republic Day/New Year's Day,National holiday
+2021-02-04,Farmer's Day,Observance
+2021-02-10,Lunar New Year Holiday,National holiday
+2021-02-11,Lunar New Year's Eve,National holiday
+2021-02-12,Lunar New Year's Day,National holiday
+2021-02-13,Lunar New Year Holiday,National holiday
+2021-02-14,Lunar New Year Holiday,National holiday
+2021-02-15,Lunar New Year Holiday,National holiday
+2021-02-16,Lunar New Year Holiday,National holiday
+2021-02-20,Special Working Day,Working day on weekend
+2021-02-26,Lantern Festival,Observance
+2021-02-26,Tourism Day,Observance
+2021-02-28,Peace Memorial Day,National holiday
+2021-03-01,Peace Memorial Day observed,National holiday
+2021-03-08,International Women's Day,Observance
+2021-03-12,Arbor Day,Observance
+2021-03-14,Earth God's Birthday,Observance
+2021-03-20,March Equinox,Season
+2021-03-29,Youth Day,Observance
+2021-03-31,Kuan Yin's Birthday,Observance
+2021-04-02,Children's Day,National holiday
+2021-04-04,Children's Day,National holiday
+2021-04-04,Easter Sunday,Observance
+2021-04-05,Tomb Sweeping Day,National holiday
+2021-04-05,Children's Day observed,National holiday
+2021-04-26,God of Medicine's Birthday,Observance
+2021-04-30,Labor Day observed,Private Sector
+2021-05-01,Labor Day,Private Sector
+2021-05-04,Literary Day,Observance
+2021-05-04,Matsu's Birthday,Observance
+2021-05-09,Mother's Day,Observance
+2021-05-19,Buddha's Birthday,Observance
+2021-06-03,Opium Suppression Movement Day,Observance
+2021-06-14,Dragon Boat Festival,National holiday
+2021-06-21,June Solstice,Season
+2021-06-22,Kuan Kung's Birthday,Observance
+2021-06-22,Chen Huang's Birthday,Observance
+2021-08-08,Father's Day,Observance
+2021-08-14,Chinese Valentine's Day,Observance
+2021-08-22,Hungry Ghost Festival,Observance
+2021-09-03,Armed Forces Day,Observance
+2021-09-11,Special Working Day,Working day on weekend
+2021-09-20,Mid-Autumn Festival,National holiday
+2021-09-21,Mid-Autumn Festival,National holiday
+2021-09-23,September Equinox,Season
+2021-09-28,Teachers' Day,Observance
+2021-10-10,National Day,National holiday
+2021-10-11,National Day observed,National holiday
+2021-10-14,Double Ninth Day,Observance
+2021-10-21,Overseas Chinese Day,Observance
+2021-10-25,Taiwan's Retrocession Day,Observance
+2021-10-31,Halloween,Observance
+2021-11-12,Sun Yat-sen's Birthday,Observance
+2021-12-21,December Solstice,Season
+2021-12-21,Dōngzhì Festival,Observance
+2021-12-25,Constitution Day,Observance
+2021-12-25,Christmas Day,Observance
+2021-12-31,Republic Day/New Year's Day observed,National holiday
+2022-01-01,Republic Day/New Year's Day,National holiday
+2022-01-22,Special Working Day,Working day on weekend
+2022-01-31,Lunar New Year's Eve,National holiday
+2022-02-01,Lunar New Year's Day,National holiday
+2022-02-02,Lunar New Year Holiday,National holiday
+2022-02-03,Lunar New Year Holiday,National holiday
+2022-02-04,Lunar New Year Holiday,National holiday
+2022-02-04,Farmer's Day,Observance
+2022-02-05,Lunar New Year Holiday,National holiday
+2022-02-15,Lantern Festival,Observance
+2022-02-15,Tourism Day,Observance
+2022-02-28,Peace Memorial Day,National holiday
+2022-03-04,Earth God's Birthday,Observance
+2022-03-08,International Women's Day,Observance
+2022-03-12,Arbor Day,Observance
+2022-03-20,March Equinox,Season
+2022-03-21,Kuan Yin's Birthday,Observance
+2022-03-29,Youth Day,Observance
+2022-04-04,Children's Day,National holiday
+2022-04-05,Tomb Sweeping Day,National holiday
+2022-04-15,God of Medicine's Birthday,Observance
+2022-04-17,Easter Sunday,Observance
+2022-04-23,Matsu's Birthday,Observance
+2022-05-01,Labor Day,Private Sector
+2022-05-02,Labor Day observed,Private Sector
+2022-05-04,Literary Day,Observance
+2022-05-08,Mother's Day,Observance
+2022-05-08,Buddha's Birthday,Observance
+2022-06-03,Dragon Boat Festival,National holiday
+2022-06-03,Opium Suppression Movement Day,Observance
+2022-06-11,Kuan Kung's Birthday,Observance
+2022-06-11,Chen Huang's Birthday,Observance
+2022-06-21,June Solstice,Season
+2022-08-04,Chinese Valentine's Day,Observance
+2022-08-08,Father's Day,Observance
+2022-08-12,Hungry Ghost Festival,Observance
+2022-09-03,Armed Forces Day,Observance
+2022-09-09,Mid-Autumn Festival Holiday,National holiday
+2022-09-10,Mid-Autumn Festival,National holiday
+2022-09-23,September Equinox,Season
+2022-09-28,Teachers' Day,Observance
+2022-10-04,Double Ninth Day,Observance
+2022-10-10,National Day,National holiday
+2022-10-21,Overseas Chinese Day,Observance
+2022-10-25,Taiwan's Retrocession Day,Observance
+2022-10-31,Halloween,Observance
+2022-11-08,Saisiat Festival,Observance
+2022-11-12,Sun Yat-sen's Birthday,Observance
+2022-12-22,December Solstice,Season
+2022-12-22,Dōngzhì Festival,Observance
+2022-12-25,Constitution Day,Observance
+2022-12-25,Christmas Day,Observance
+2023-01-01,Republic Day/New Year's Day,National holiday
+2023-01-02,Republic Day/New Year's Day observed,National holiday
+2023-01-07,Special Working Day,Working day on weekend
+2023-01-20,Lunar New Year Holiday,National holiday
+2023-01-21,Lunar New Year's Eve,National holiday
+2023-01-22,Lunar New Year's Day,National holiday
+2023-01-23,Lunar New Year Holiday,National holiday
+2023-01-24,Lunar New Year Holiday,National holiday
+2023-01-25,Lunar New Year Holiday,National holiday
+2023-01-26,Lunar New Year Holiday,National holiday
+2023-01-27,Lunar New Year Holiday,National holiday
+2023-01-28,Lunar New Year Holiday,National holiday
+2023-01-29,Lunar New Year Holiday,National holiday
+2023-02-04,Special Working Day,Working day on weekend
+2023-02-04,Farmer's Day,Observance
+2023-02-05,Lantern Festival,Observance
+2023-02-05,Tourism Day,Observance
+2023-02-18,Special Working Day,Working day on weekend
+2023-02-21,Earth God's Birthday,Observance
+2023-02-25,Peace Memorial Day Holiday,National holiday
+2023-02-26,Peace Memorial Day Holiday,National holiday
+2023-02-27,Peace Memorial Day Holiday,National holiday
+2023-02-28,Peace Memorial Day,National holiday
+2023-03-08,International Women's Day,Observance
+2023-03-10,Kuan Yin's Birthday,Observance
+2023-03-12,Arbor Day,Observance
+2023-03-21,March Equinox,Season
+2023-03-25,Special Working Day,Working day on weekend
+2023-03-29,Youth Day,Observance
+2023-04-01,Public Holiday,National holiday
+2023-04-02,Public Holiday,National holiday
+2023-04-03,Public Holiday,National holiday
+2023-04-04,Children's Day,National holiday
+2023-04-05,Tomb Sweeping Day,National holiday
+2023-04-09,Easter Sunday,Observance
+2023-05-01,Labor Day,Private Sector
+2023-05-04,Literary Day,Observance
+2023-05-04,God of Medicine's Birthday,Observance
+2023-05-12,Matsu's Birthday,Observance
+2023-05-14,Mother's Day,Observance
+2023-05-26,Buddha's Birthday,Observance
+2023-06-03,Opium Suppression Movement Day,Observance
+2023-06-17,Special Working Day,Working day on weekend
+2023-06-21,June Solstice,Season
+2023-06-22,Dragon Boat Festival,National holiday
+2023-06-23,Dragon Boat Festival Holiday,National holiday
+2023-06-24,Dragon Boat Festival Holiday,National holiday
+2023-06-25,Dragon Boat Festival Holiday,National holiday
+2023-06-30,Kuan Kung's Birthday,Observance
+2023-06-30,Chen Huang's Birthday,Observance
+2023-08-08,Father's Day,Observance
+2023-08-22,Chinese Valentine's Day,Observance
+2023-08-30,Hungry Ghost Festival,Observance
+2023-09-03,Armed Forces Day,Observance
+2023-09-23,Special Working Day,Working day on weekend
+2023-09-23,September Equinox,Season
+2023-09-28,Teachers' Day,Observance
+2023-09-29,Mid-Autumn Festival,National holiday
+2023-09-30,Mid-Autumn Festival Holiday,National holiday
+2023-10-01,Mid-Autumn Festival Holiday,National holiday
+2023-10-07,National Day Holiday,National holiday
+2023-10-08,National Day Holiday,National holiday
+2023-10-09,National Day Holiday,National holiday
+2023-10-10,National Day,National holiday
+2023-10-21,Overseas Chinese Day,Observance
+2023-10-23,Double Ninth Day,Observance
+2023-10-25,Taiwan's Retrocession Day,Observance
+2023-10-31,Halloween,Observance
+2023-11-12,Sun Yat-sen's Birthday,Observance
+2023-12-22,December Solstice,Season
+2023-12-22,Dōngzhì Festival,Observance
+2023-12-25,Constitution Day,Observance
+2023-12-25,Christmas Day,Observance
