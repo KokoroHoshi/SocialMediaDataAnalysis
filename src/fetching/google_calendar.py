@@ -24,6 +24,11 @@ AU_CALENDAR_ID = "en.australian#holiday@group.v.calendar.google.com"
 client_secrets_file = "./secrets/google_calendar_credentials.json"
 token_file = "./secrets/google_calendar_token.json"
 
+save_path = "./data/Google Calendar/holidays.csv"
+# only can get 2022-2023
+start_date = (2018, 1, 1)
+end_date = (2024, 1, 1)
+
 def main():
     """Shows basic usage of the Google Calendar API.
     Prints the start and name of the next 10 events on the user's calendar.
@@ -46,10 +51,10 @@ def main():
         with open(token_file, 'w') as token:
             token.write(creds.to_json())
             
-    holidays = get_hoilday(creds, UK_CALENDAR_ID, (2022, 1, 1), (2023, 1, 1), max_results=365)
+    holidays = get_hoilday(creds, UK_CALENDAR_ID, start_date, end_date, max_results=365)
     data = pd.DataFrame(holidays)
     print(data)
-    pd.DataFrame(data).to_csv("holidays.csv", index=False)
+    pd.DataFrame(data).to_csv(save_path, index=False)
 
 def get_hoilday(creds, calendar_id, start_date= None, end_date= None, max_results= 10):
     try:

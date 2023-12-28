@@ -21,18 +21,18 @@ cur_username = HOLOLIVE_USERNAME
 
 secret_file = "./secrets/x_login_info.json"
 
-# 01-01~01-01
+
 # 2022-2023 -> 1~4
 # 2021-2022 -> 5~7
 # 2020-2021 -> 8~11
-# 2019-2020 ->
-# 2018-2019 ->
-# 2017-2018 ->
+# 2019-2020 -> 12~15
+# 2018-2019 -> 16~19
+# 2017-2018 -> 20
 
-save_csv_path = "./data/X_Twitter/tweets_data_14.csv"
+save_csv_path = "./data/X_Twitter/test.csv"
 
-start_date = "2019-01-01"
-end_date = "2019-08-14"
+start_date = "2023-01-01"
+end_date = "2024-01-01"
 
 chrome_options = Options()
 chrome_options.add_argument('--incognito') 
@@ -56,12 +56,10 @@ def main():
     
     tweets_data = get_tweets(cur_username, max_results=-1, start_date=start_date, end_date=end_date)
     # tweets_data = get_tweets(cur_username, max_results=-1, start_date="2022-01-01", end_date="2023-01-01", content_filter="\u2605\u2605\u2605 \u8a3a\u65ad\u5b8c\u4e86 \u2605\u2605\u2605")
-    # tweets_data = get_tweets(cur_username, max_results=2500)
     
     driver.quit()
     
     data = pd.DataFrame(tweets_data)
-    # print(data.head())
     
     pd.DataFrame(data).to_csv(save_csv_path, index=False)
     print(f"saved to '{save_csv_path}'.")
@@ -103,8 +101,6 @@ def get_tweets(username, max_results=5, start_date=None, end_date=None, content_
     tweets_data = []
     
     if start_date is None or end_date is None:
-        # https://twitter.com/search?q=from%3Ahololivetv%20since%3A2018-01-01%20until%3A2019-01-01&src=typed_query&f=live
-        # driver.get(f'https://twitter.com/{username}/media')
         print("start date and end date are needed.")
         return
     if content_filter != None:
@@ -118,13 +114,12 @@ def get_tweets(username, max_results=5, start_date=None, end_date=None, content_
     search_input.send_keys(search_query)
     search_input.send_keys(Keys.RETURN)
     
-    # click the "Latest button"
+    # click the "Latest" button
     lastest_btn = WebDriverWait(driver, 5).until(
         EC.presence_of_element_located((By.XPATH, '//a[contains(@href, "f=live")]'))
     )
     lastest_btn.click()
     
-    # tweets = driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweet"]')
     tweets = WebDriverWait(driver, 10).until(
         EC.presence_of_all_elements_located((By.CSS_SELECTOR, '[data-testid="tweet"]'))
     )
@@ -142,50 +137,36 @@ def get_tweets(username, max_results=5, start_date=None, end_date=None, content_
                 )
             except:
                 print("not found content\n")
-            # content = tweet.find_element(By.CSS_SELECTOR, 'div[lang]')
-            # print(f"{count}.")
-            # print(content.text)
-            # print()
-            
-            # print("tags:")
+
             tags = tweet.find_elements(By.XPATH, './/a[contains(@href, "/hashtag")]')
             tags_str = " ".join(tag.text for tag in tags)
-            # print(tags_str)
-            # print("\n\n")
                     
             timestamp = tweet.find_element(By.TAG_NAME,"time").get_attribute("datetime")
             posted_time = parse(timestamp).isoformat()
-            # print(posted_time)
             
             try:
                 replies_element = tweet.find_element(By.CSS_SELECTOR, '[data-testid="reply"]')
                 replies = replies_element.get_attribute("aria-label")
             except:
                 replies = None
-            # print(f"replies: {extract_digits(replies)}", end=" ")
             
             try:
                 retweet_element = tweet.find_element(By.CSS_SELECTOR, '[data-testid="retweet"]')
                 retweets = retweet_element.get_attribute("aria-label")
             except:
                 retweets = None
-            # print(f"retweets: {extract_digits(retweets)}", end=" ")
             
             try:
                 like_element = tweet.find_element(By.CSS_SELECTOR, '[data-testid="like"]')
                 likes = like_element.get_attribute("aria-label")
             except:
                 likes = None
-            # print(f"likes: {extract_digits(likes)}", end=" ")
             
             try:
                 view_element = tweet.find_element(By.XPATH, './/*[contains(@aria-label, "View post analytics")]')
                 views = view_element.get_attribute("aria-label")
             except:
                 views = None
-            # print(f"views: {extract_digits(views)}")
-            
-            # print()
             
             tweet_data = dict(content = content.text,
                                 tags = tags_str,
@@ -235,7 +216,7 @@ def get_tweets(username, max_results=5, start_date=None, end_date=None, content_
                     i += 1
                             
                 if len(tweets) == count-1:
-                    # need to fix x(twitter) Somthing went wrong problem (there's a Retry btn or just refresh the page)
+                    # need to fix x(twitter) Somthing went wrong problem (there's a "Retry" button or just refresh the page)
                     print("not more tweets or something went wrong ( x(twitter) or network problem )")
                     break
 
