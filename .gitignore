@@ -1,4 +1,6 @@
 secrets/
+reference/
 data/X_Twitter/test.csv
 src/fetching/facebook.py
 .Rproj.user
+.Rhistory
