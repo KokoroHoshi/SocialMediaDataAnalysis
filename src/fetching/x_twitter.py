@@ -21,14 +21,6 @@ cur_username = HOLOLIVE_USERNAME
 
 secret_file = "./secrets/x_login_info.json"
 
-
-# 2022-2023 -> 1~4
-# 2021-2022 -> 5~7
-# 2020-2021 -> 8~11
-# 2019-2020 -> 12~15
-# 2018-2019 -> 16~19
-# 2017-2018 -> 20
-
 save_csv_path = "./data/X_Twitter/test.csv"
 
 start_date = "2023-01-01"

@@ -57,7 +57,6 @@ def get_channel_playlistId(youtube, channel_id):
     )
 
     response = request.execute()
-
     return response['items'][0]['contentDetails']['relatedPlaylists']['uploads']
 
 def get_video_ids(youtube, playlist_id, max_results= 5, pages_limit= -1):
@@ -142,4 +141,4 @@ def get_video_details(youtube, video_ids):
     return all_video_stats
 
 if __name__ == '__main__':
-    main()
+    main()    
