@@ -3,7 +3,8 @@ p_load("dplyr", "ggplot2", "this.path")
 p_load("cluster", "factoextra", "NbClust")
 p_load("lubridate", "stringr")
 p_load("rpart", "rpart.plot", "caret")
-p_load("nnet")
+p_load("nnet", "pscl")
+p_load("car")
 
 setwd(file.path(file.path(dirname(this.path()), ".."), ".."))
 getwd()
@@ -16,17 +17,17 @@ yt_data <- read.csv("./data/YouTube/new_Hololive.csv")
 # title -> title_num
 yt_data$title_num <- nchar(yt_data$title)
 
-# publishedDate -> publishedHour
+# publishedDate -> published_hour
 # yt_data$publishedTime <- as.POSIXct(yt_data$publishedDate, 
 #                                     format="%Y-%m-%dT%H:%M:%S", 
 #                                     tz="UTC")
 # yt_data$publishedTime <- format(yt_data$publishedTime,
 #                                 format = "%H:%M")
-yt_data$publishedHour <- hour(as.POSIXct(yt_data$publishedDate, 
+yt_data$published_hour <- hour(as.POSIXct(yt_data$publishedDate, 
                                          format="%Y-%m-%dT%H:%M:%S", 
                                          tz="UTC"))
 
-hist(yt_data$publishedHour, breaks = 24)
+hist(yt_data$published_hour, breaks = 24)
 
 # duration -> duration_sec
 # extract numeric parts for each unit
@@ -60,21 +61,6 @@ yt_data$tags_processed <- apply(yt_data, 1, function(row) adjust_tags(row["tags"
 tags_extracted <- str_extract_all(yt_data$tags_processed, "#[^#]+")
 
 yt_data$tag_num <- sapply(tags_extracted, length)
-
-# topicCategories -> topicCategories_processed -> ?
-yt_data$topicCategories_processed <- sapply(yt_data$topicCategories, function(x) {
-  x_cleaned <- str_replace_all(x, "https://en.wikipedia.org/wiki/", "")
-  
-  keywords <- str_extract_all(x_cleaned, "\\w+")[[1]]
-  
-  if (length(keywords) == 0) {
-    return(NA)
-  }
-  
-  return(paste(keywords, collapse = ","))
-})
-
-yt_data$topicCategories_processed[is.na(yt_data$topicCategories_processed)] <- ""
 
 # filter date, privacyStatus and NA
 names(yt_data)[names(yt_data) == "publishedDate"] <- "date"
@@ -114,14 +100,14 @@ scaled_yt_data$cluster <- cluster_results$cluster
 
 # rename cluster (level: 1 > 2 > 3)
 scaled_yt_data <- scaled_yt_data %>%
-  mutate(cluster = recode(cluster, '1' = '2', '2' = '1', '3' = '3'))
+  mutate(cluster = dplyr::recode(cluster, '1' = '2', '2' = '1', '3' = '3'))
 
 hist(scaled_yt_data[scaled_yt_data$cluster == 1, ]$views)
 hist(scaled_yt_data[scaled_yt_data$cluster == 2, ]$views)
 hist(scaled_yt_data[scaled_yt_data$cluster == 3, ]$views)
 
 
-# --- decision tree (acc = 0.01604278) ---
+# --- decision tree (acc = 0.9032258) ---
 
 analysis_data <- scaled_yt_data %>%
   select(title_num:duration_sec,
@@ -137,7 +123,8 @@ train <- analysis_data[train.index, ]
 test <- analysis_data[-train.index, ]
 
 tree_model <- rpart(cluster ~ .,
-               data = train)
+               data = train,
+               method = "class")
 
 summary(tree_model)
 
@@ -153,14 +140,13 @@ tree_pred <- predict(tree_model,
                      newdata = test,
                      type = "class")
 
-table(tree_pred, test$cluster)
-
 # Error: `data` and `reference` should be factors with the same levels.
 # confusionMatrix(as.factor(tree_pred), test$cluster)
-
 table(real = test$cluster, predict = tree_pred)
 confus.matrix <- table(real = test$cluster, predict = tree_pred)
-sum(diag(confus.matrix))/sum(confus.matrix)
+confus.matrix
+
+sum(tree_pred == test$cluster) / NROW(tree_pred)
 
 
 # --- remove outliers (cluster == 1) ---
@@ -189,15 +175,15 @@ fviz_cluster(cluster_results,
 scaled_yt_data$cluster <- cluster_results$cluster
 
 # rename cluster (level: 1 > 2 > 3)
-scaled_yt_data <- scaled_yt_data %>%
-  mutate(cluster = recode(cluster, '1' = '2', '2' = '1', '3' = '3'))
+#scaled_yt_data <- scaled_yt_data %>%
+#  mutate(cluster = recode(cluster, '1' = '2', '2' = '1', '3' = '3'))
 
 hist(scaled_yt_data[scaled_yt_data$cluster == 1, ]$views)
 hist(scaled_yt_data[scaled_yt_data$cluster == 2, ]$views)
 hist(scaled_yt_data[scaled_yt_data$cluster == 3, ]$views)
 
 
-# --- decision tree again (acc = 0.8064516) ---
+# --- decision tree again (acc = 0.8172043) ---
 
 analysis_data <- scaled_yt_data %>%
   select(title_num:duration_sec,
@@ -213,7 +199,8 @@ train <- analysis_data[train.index, ]
 test <- analysis_data[-train.index, ]
 
 tree_model <- rpart(cluster ~ .,
-                    data = train)
+                    data = train,
+                    method = "class")
 
 summary(tree_model)
 
@@ -223,7 +210,7 @@ prp(tree_model,
     faclen = 0,
     fallen.leaves = TRUE,
     shadow.col = "gray", 
-    extra = 3)
+    extra = 2)
 
 tree_pred <- predict(tree_model,
                      newdata = test,
@@ -231,7 +218,8 @@ tree_pred <- predict(tree_model,
 
 table(real = test$cluster, predict = tree_pred)
 confus.matrix <- table(real = test$cluster, predict = tree_pred)
-sum(diag(confus.matrix))/sum(confus.matrix)
+confus.matrix
+sum(tree_pred == test$cluster) / NROW(tree_pred)
 
 
 # --- prune tree (acc = 0.7956989)---
@@ -254,7 +242,35 @@ tree_pred <- predict(pruned_tree_model,
 
 table(real = test$cluster, predict = tree_pred)
 confus.matrix <- table(real = test$cluster, predict = tree_pred)
-sum(diag(confus.matrix))/sum(confus.matrix)
+confus.matrix
+sum(tree_pred == test$cluster) / NROW(tree_pred)
+
+
+# --- correlation coefficient ---
+
+analysis_data <- scaled_yt_data %>%
+  select(title_num:duration_sec,
+         tag_num,
+         cluster)
+
+cor(analysis_data, method = "pearson")
+cor(analysis_data, method = "spearman")
+cor(analysis_data, method = "kendall")
+
+
+# --- linear regresstion (acc = 0.7634409)---
+
+ln_model <- lm(cluster ~ ., data = train)
+
+summary(ln_model)
+
+avPlots(ln_model)
+
+ln_pred <- round(predict(ln_model, newdata = test))
+
+sum(ln_pred == test$cluster) / NROW(ln_pred)
+
+xtabs(~ ln_pred + test$cluster)
 
 
 # --- multinomial logistic regression (acc = 0.8064516) ---
@@ -264,6 +280,8 @@ set.seed(563)
 (log_model <- multinom(cluster ~ ., data = train))
 
 summary(log_model)
+
+pR2(log_model)
 
 log_pred <- predict(log_model, newdata = test)
 
