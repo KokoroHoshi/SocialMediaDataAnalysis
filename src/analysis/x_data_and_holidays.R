@@ -1,109 +1,143 @@
 library(pacman)
 p_load("dplyr", "ggplot2", "this.path")
+p_load("cluster", "factoextra", "NbClust")
+p_load("vcd")
 
 setwd(file.path(file.path(dirname(this.path()), ".."), ".."))
 getwd()
 
 
+# --- data preprocess ---
 
-# --- x_data preprocess ---
-x_data_1 <- read.csv("./data/X_Twitter/tweets_data_1.csv")
-x_data_2 <- read.csv("./data/X_Twitter/tweets_data_2.csv")
-x_data_3 <- read.csv("./data/X_Twitter/tweets_data_3.csv")
-x_data_4 <- read.csv("./data/X_Twitter/tweets_data_4.csv")
-x_data <- rbind(x_data_1, x_data_2, x_data_3, x_data_4)
+# x_data
+file_paths <- list.files(path = "./data/X_Twitter/", pattern = "tweets_data_\\d\\.csv", full.names = TRUE)
+x_data <- do.call(rbind, lapply(file_paths, read.csv))
 
-# unique x_data
 x_data <- unique(x_data)
 
-# change posted_time to date
+end_date <- as.Date("2023-12-01")
+x_data <- x_data %>%
+  filter(posted_time < end_date) %>%
+  filter(views != -1)
+
 names(x_data)[names(x_data) == "posted_time"] <- "date"
-x_data$date <- as.Date(x_data$date)
 
-# delete x_data if views == -1
-x_data <- x_data[x_data$views != -1, ]
-
-View(x_data)
+summary(x_data %>% dplyr::select(replies:views))
 
 
+# holidays
+JP_holidays <- read.csv("./data/Holidays/japan_holidays.csv")
+USA_holidays <- read.csv("./data/Holidays/us_holidays.csv")
+ID_holidays <- read.csv("./data/Holidays/indonesia_holidays.csv")
 
-# --- holidays preprocess ---
-JP_holidays <- read.csv("./data/Google Calendar/JP_holidays.csv")
-USA_holidays <- read.csv("./data/Google Calendar/USA_holidays.csv")
-ID_holidays <- read.csv("./data/Google Calendar/ID_holidays.csv")
 
-# rbind holidays from different contries
 holidays <- rbind(JP_holidays, USA_holidays, ID_holidays)
-View(holidays)
 
-# sort by date
-holidays$date <- as.Date(holidays$date)
-sorted_idx <- order(holidays$date)
-holidays <- holidays[sorted_idx, ]
+holidays_date <- holidays %>% 
+  filter(type == "Observance" | 
+           type == "National holiday" | 
+           type == "Federal Holiday") %>%
+  distinct(date) %>%
+  mutate(is_holiday = TRUE)
 
-# unique holidays
-holidays <- unique(holidays)
+# join data
+x_data$date <- as.Date(x_data$date)
+holidays_date$date <- as.Date(holidays_date$date)
 
-# reset index
-rownames(holidays) <- NULL
+new_x_data <- left_join(x_data, holidays_date, by="date")
+new_x_data[is.na(new_x_data)] <- FALSE
+
+# feature scaling
+scaled_x_data <- new_x_data %>% 
+  dplyr::select(replies:is_holiday) %>%
+  mutate(across(replies:views, ~scale(.)[, 1],  .names = "{col}_scaled"))
 
 
+# --- histogram ---
 
-# --- join x_data and holidays by date ---
-new_x_data <- left_join(x_data, holidays, by="date")
-View(new_x_data)
-
-# filter new_x_data by date
-start_date <- as.Date("2022-01-01")
-end_date <- as.Date("2022-12-31")
-new_x_data <- new_x_data %>%
-  filter(date >= start_date & date <= end_date)
-
-# group data on non holiday or holiday
-non_holiday_x_data <- new_x_data %>%
-  filter(is.na(holiday.name))
-holiday_x_data <- new_x_data %>%
-  filter(!is.na(holiday.name))
-View(holiday_x_data)
-
-# views box plot for non holiday and holiday
-par(mfrow = c(1, 2))
-par(mar = c(2, 2, 2, 2))
-boxplot(non_holiday_x_data$views, main = "non holiday")
-boxplot(holiday_x_data$views, main = "holiday")
-par(mar = c(5, 4, 4, 2) + 0.1)
-par(mfrow = c(1, 1))
-
-# filter outlier of views
-IQR(non_holiday_x_data$views)
-IQR(holiday_x_data$views)
 RemoveOutliers <- function(data, column_name, multiplier = 1.5) {
-  IQR_val <- IQR(column_name)
+  col <- data[, column_name]
   
-  lower_threshold <- quantile(column_name, 0.25) - multiplier * IQR_val
-  upper_threshold <- quantile(column_name, 0.75) + multiplier * IQR_val
+  IQR_val <- IQR(col)
+  
+  lower_threshold <- quantile(col, 0.25) - multiplier * IQR_val
+  upper_threshold <- quantile(col, 0.75) + multiplier * IQR_val
   
   filtered_data <- data %>%
-    filter(column_name >= lower_threshold, column_name <= upper_threshold)
+    filter(col >= lower_threshold, col <= upper_threshold)
   
   return(filtered_data)
 }
-non_holiday_x_data <- RemoveOutliers(non_holiday_x_data, non_holiday_x_data$views)
-holiday_x_data <- RemoveOutliers(holiday_x_data, holiday_x_data$views)
 
-# views box plot for non holiday and holiday without outliers
-par(mfrow = c(1, 2))
-par(mar = c(2, 2, 2, 2))
-boxplot(non_holiday_x_data$views, main = "non holiday")
-boxplot(holiday_x_data$views, main = "holiday")
-par(mar = c(5, 4, 4, 2) + 0.1)
+par(mfrow = c(1, 4))
+hist(new_x_data$retweets)
+hist(new_x_data$views)
+hist(new_x_data$likes)
+hist(new_x_data$replies)
 par(mfrow = c(1, 1))
 
-# summary replies, retweets, likes and views of two data
-summary(non_holiday_x_data %>% select(replies:views))
-summary(holiday_x_data %>% select(replies:views))
+par(mfrow = c(1, 4))
+hist(RemoveOutliers(new_x_data, "retweets")$retweets)
+hist(RemoveOutliers(new_x_data, "views")$views)
+hist(RemoveOutliers(new_x_data, "likes")$likes)
+hist(RemoveOutliers(new_x_data, "replies")$replies)
+par(mfrow = c(1, 1))
 
 
+# --- analysis ---
+
+# clustering
+set.seed(563)
+
+#cluster_data <- scaled_x_data[, c("replies", "retweets", "likes", "views")]
+cluster_data <- scaled_x_data %>% dplyr::select(replies_scaled:views_scaled)
+
+fviz_nbclust(cluster_data,
+             FUNcluster = kmeans,
+             method = "wss",
+             k.max = 12) +
+  labs(title = "Elboe Method for K-Means") +
+  geom_vline(xintercept = 3,
+             linetype = 2)
+
+cluster_results <- kmeans(cluster_data,
+                          centers = 3,
+                          iter.max = 30,
+                          nstart = 25)
+
+fviz_cluster(cluster_results,
+             data = cluster_data)
+
+cluster_results$centers
+
+scaled_x_data$cluster <- cluster_results$cluster
+
+hist(scaled_x_data[scaled_x_data$cluster == 1, ]$views)
+hist(scaled_x_data[scaled_x_data$cluster == 2, ]$views)
+hist(scaled_x_data[scaled_x_data$cluster == 3, ]$views)
+
+
+# --- analysis ---
+
+# independent testing
+cross_table <- xtabs(~cluster + is_holiday, data=scaled_x_data)
+cross_table
+
+chisq.test(cross_table)
+
+fisher.test(cross_table)
+
+# correlation coefficient
+cor(scaled_x_data[, 5:10], method = "pearson")
+cor(scaled_x_data[, 5:10], method = "spearman")
+cor(scaled_x_data[, 5:10], method = "kendall")
+
+cor.test(scaled_x_data$cluster,
+         as.numeric(scaled_x_data$is_holiday),
+         method = "pearson")
+
+
+# --- clean environment ---
 
 dev.off()
 cat('\014')

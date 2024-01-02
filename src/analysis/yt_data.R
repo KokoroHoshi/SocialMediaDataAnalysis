@@ -54,7 +54,7 @@ adjust_tags <- function(tags_str) {
                           USE.NAMES = FALSE)
   
   return(adjusted_tags)
-}
+}S
 
 yt_data$tags_processed <- apply(yt_data, 1, function(row) adjust_tags(row["tags"]))
 
